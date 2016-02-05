@@ -31,10 +31,29 @@ httpd.conf added content:
 
 # Windows
 ## Prerequisites
+ * Visual Studio
+ * CMake
+ * header files and libeay32.lib and ssleay32.lib of your favorite OpenSSL distribution, we use 1.0.1e from Red Hat JBoss Web Server
 
-## Software
+    λ ls JWS\openssl-devel-1.0.1e-51.win6.i686\include\openssl\
+    aes.h       cmac.h      dtls1.h   krb5_asn.h     opensslv.h  rsa.h        tls1.h
+    applink.c   cms.h       e_os2.h   kssl.h         ossl_typ.h  safestack.h  ts.h
+    asn1.h      comp.h      ebcdic.h  lhash.h        pem.h       seed.h       txt_db.h
+    asn1_mac.h  conf.h      ec.h      md2.h          pem2.h      sha.h        ui.h
+    asn1t.h     conf_api.h  ecdh.h    md4.h          pkcs12.h    srtp.h       ui_compat.h
+    bio.h       crypto.h    ecdsa.h   md5.h          pkcs7.h     ssl.h        whrlpool.h
+    blowfish.h  des.h       engine.h  modes.h        pqueue.h    ssl2.h       x509.h
+    bn.h        des_old.h   err.h     obj_mac.h      rand.h      ssl23.h      x509_vfy.h
+    buffer.h    dh.h        evp.h     objects.h      rc2.h       ssl3.h       x509v3.h
+    camellia.h  dsa.h       hmac.h    ocsp.h         rc4.h       stack.h
+    cast.h      dso.h       idea.h    opensslconf.h  ripemd.h    symhacks.h
 
+    λ ls JWS\openssl-devel-1.0.1e-51.win6.i686\lib\
+    libeay32.lib  libeay32s.lib  ssleay32.lib  ssleay32s.lib
+    
 ## Path
+
+For the sake of clarity, here is my Windows PATH at the moment of compilation. Note no CygWin there. Cmder brings a tool or two of its own, like ```ls```, although it is a convenience, not a dependency.
 
     C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\CommonExtensions\Microsoft\TestWindow;
     C:\Program Files (x86)\MSBuild\14.0\bin;
@@ -77,6 +96,14 @@ httpd.conf added content:
     C:\Users\Karm\Downloads\Cmder
 
 
+## Build
+notroj
+    mkdir DummyCryptoDevice-build
+    cd DummyCryptoDevice-build
+    vcvars32.bat
+    cmake ../DummyCryptoDevice -G "NMake Makefiles" -DOPENSSL_LIBRARIES=C:\cygwin64\home\Karm\JWS\openssl-devel-1.0.1e-51.win6.i686\lib\ -DOPENSSL_INCLUDE_DIR=C:\cygwin64\home\Karm\JWS\openssl-devel-1.0.1e-51.win6.i686\include\  -DOPENSSL_ROOT_DIR=C:\cygwin64\home\Karm\JWS\openssl-devel-1.0.1e-51.win6.i686\
+    nmake
+
 
 ## Certificates
     openssl ecparam -out ca-key.pem -genkey -name prime256v1
@@ -85,15 +112,6 @@ httpd.conf added content:
     openssl req -new -key server-key.pem -out server-csr.pem
     openssl x509 -req -days 365 -in server-csr.pem -CA ca-cert.pem -CAkey ca-key.pem -set_serial 01 -out server-cert.pem
     openssl dhparam -out dhparam.pem 2048
-
-## Build
-
-    mkdir DummyCryptoDevice-build
-    cd DummyCryptoDevice-build
-    vcvars32.bat
-    cmake ../DummyCryptoDevice -G "NMake Makefiles" -DOPENSSL_LIBRARIES=C:\cygwin64\home\Karm\JWS\openssl-devel-1.0.1e-51.win6.i686\lib\ -DOPENSSL_INCLUDE_DIR=C:\cygwin64\home\Karm\JWS\openssl-devel-1.0.1e-51.win6.i686\include\  -DOPENSSL_ROOT_DIR=C:\cygwin64\home\Karm\JWS\openssl-devel-1.0.1e-51.win6.i686\
-    nmake
-
 
 ## Configuration
 httpd.conf added content:
