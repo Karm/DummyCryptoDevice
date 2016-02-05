@@ -10,6 +10,7 @@ Nothing non-standard. dev libs, tool chain, cmake, make
  * CMake
  * header files and libeay32.lib and ssleay32.lib of your favorite OpenSSL distribution, we use 1.0.1e from Red Hat JBoss Web Server
 
+    ```
     λ ls openssl-devel-1.0.1e-51.win6.i686\include\openssl\
     aes.h       cmac.h      dtls1.h   krb5_asn.h     opensslv.h  rsa.h        tls1.h
     applink.c   cms.h       e_os2.h   kssl.h         ossl_typ.h  safestack.h  ts.h
@@ -22,10 +23,12 @@ Nothing non-standard. dev libs, tool chain, cmake, make
     buffer.h    dh.h        evp.h     objects.h      rc2.h       ssl3.h       x509v3.h
     camellia.h  dsa.h       hmac.h    ocsp.h         rc4.h       stack.h
     cast.h      dso.h       idea.h    opensslconf.h  ripemd.h    symhacks.h
-
+    ```
+    ```
     λ ls openssl-devel-1.0.1e-51.win6.i686\lib\
     libeay32.lib  libeay32s.lib  ssleay32.lib  ssleay32s.lib
-
+    ```
+    
 ## Path
 
 For the sake of clarity, here is my Windows PATH at the moment of compilation. Note no CygWin there. Cmder brings a tool or two of its own, like ```ls```, although it is a convenience, not a dependency.
