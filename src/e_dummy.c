@@ -1,6 +1,6 @@
 /* Copyright (c) Red Hat Inc., based on e_chil.c
- */
-/* ====================================================================
+ *
+ * ====================================================================
  * Copyright (c) 1999-2001 The OpenSSL Project.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
