@@ -1,36 +1,8 @@
 # DummyCryptoDevice
-Test dummy engine for SSLCryptoDevice mod_ssl feature
+Test dummy engine for SSLCryptoDevice mod_ssl feature. Kudos goes to @notroj
 
 # Linux
-## Prerequisites
-
-## Certificates
-    openssl ecparam -out ca-key.pem -genkey -name prime256v1
-    openssl req -x509 -new -key ca-key.pem -out ca-cert.pem
-    openssl ecparam -out server-key.pem -genkey -name prime256v1 -noout
-    openssl req -new -key server-key.pem -out server-csr.pem
-    openssl x509 -req -days 365 -in server-csr.pem -CA ca-cert.pem -CAkey ca-key.pem -set_serial 01 -out server-cert.pem
-    openssl dhparam -out dhparam.pem 2048
-
-## Build
-    
-    
-## Configuration
-httpd.conf added content:
-
-    <IfModule mod_ssl.c>
-        SSLRandomSeed startup builtin
-        SSLRandomSeed connect builtin
-        SSLCryptoDevice dummy
-        SSLEngine on
-        SSLProtocol             all -SSLv2 -SSLv3
-        SSLCipherSuite          ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA
-        SSLHonorCipherOrder     on
-        SSLOpenSSLConfCmd DHParameters "/home/mbabacek/JWS/jboss-ews-2.1/httpd/certs/dhparam.pem"
-        SSLCertificateFile "/home/mbabacek/JWS/jboss-ews-2.1/httpd/certs/server-cert.pem"
-        SSLCertificateKeyFile "/home/mbabacek/JWS/jboss-ews-2.1/httpd/certs/server-key.pem"
-        SSLCACertificateFile "/home/mbabacek/JWS/jboss-ews-2.1/httpd/certs/ca-cert.pem"
-    </IfModule>
+Nothing non-standard. dev libs, tool chain, cmake, make
 
 # Windows
 ## Prerequisites
@@ -38,7 +10,7 @@ httpd.conf added content:
  * CMake
  * header files and libeay32.lib and ssleay32.lib of your favorite OpenSSL distribution, we use 1.0.1e from Red Hat JBoss Web Server
 
-    λ ls JWS\openssl-devel-1.0.1e-51.win6.i686\include\openssl\
+    λ ls openssl-devel-1.0.1e-51.win6.i686\include\openssl\
     aes.h       cmac.h      dtls1.h   krb5_asn.h     opensslv.h  rsa.h        tls1.h
     applink.c   cms.h       e_os2.h   kssl.h         ossl_typ.h  safestack.h  ts.h
     asn1.h      comp.h      ebcdic.h  lhash.h        pem.h       seed.h       txt_db.h
@@ -51,9 +23,9 @@ httpd.conf added content:
     camellia.h  dsa.h       hmac.h    ocsp.h         rc4.h       stack.h
     cast.h      dso.h       idea.h    opensslconf.h  ripemd.h    symhacks.h
 
-    λ ls JWS\openssl-devel-1.0.1e-51.win6.i686\lib\
+    λ ls openssl-devel-1.0.1e-51.win6.i686\lib\
     libeay32.lib  libeay32s.lib  ssleay32.lib  ssleay32s.lib
-    
+
 ## Path
 
 For the sake of clarity, here is my Windows PATH at the moment of compilation. Note no CygWin there. Cmder brings a tool or two of its own, like ```ls```, although it is a convenience, not a dependency.
@@ -98,39 +70,101 @@ For the sake of clarity, here is my Windows PATH at the moment of compilation. N
     C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin;
     C:\Users\Karm\Downloads\Cmder
 
-
 ## Build
-notroj
-    mkdir DummyCryptoDevice-build
-    cd DummyCryptoDevice-build
-    vcvars32.bat
-    cmake ../DummyCryptoDevice -G "NMake Makefiles" -DOPENSSL_LIBRARIES=C:\cygwin64\home\Karm\JWS\openssl-devel-1.0.1e-51.win6.i686\lib\ -DOPENSSL_INCLUDE_DIR=C:\cygwin64\home\Karm\JWS\openssl-devel-1.0.1e-51.win6.i686\include\  -DOPENSSL_ROOT_DIR=C:\cygwin64\home\Karm\JWS\openssl-devel-1.0.1e-51.win6.i686\
-    nmake
+    C:\Users\Karm
+    λ git clone https://github.com/Karm/DummyCryptoDevice.git
+    Cloning into 'DummyCryptoDevice'...
+    
+    
+    C:\Users\Karm
+    λ mkdir DummyCryptoDevice-build
+    
+    
+    C:\Users\Karm
+    λ cd DummyCryptoDevice-build\
+    
+    
+    C:\Users\Karm\DummyCryptoDevice-build
+    λ vcvars32.bat
+    
+    
+    C:\Users\Karm\DummyCryptoDevice-build
+    λ cmake ../DummyCryptoDevice -G "NMake Makefiles" -DOPENSSL_LIBRARIES=C:\Users\Karm\openssl-devel-1.0.1e-51.win6.i686\lib\ -DOPENSSL_INCLUDE_DIR=C:\Users\Karm\openssl-devel-1.0.1e-51.win6.i686\include\  -DOPENSSL_ROOT_DIR=C:\Users\Karm\openssl-devel-1.0.1e-51.win6.i686\
+    -- The C compiler identification is MSVC 19.0.23506.0
+    -- The CXX compiler identification is MSVC 19.0.23506.0
+    -- Check for working C compiler: C:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/bin/cl.exe
+    -- Check for working C compiler: C:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/bin/cl.exe -- works
+    -- Detecting C compiler ABI info
+    -- Detecting C compiler ABI info - done
+    -- Check for working CXX compiler: C:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/bin/cl.exe
+    -- Check for working CXX compiler: C:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/bin/cl.exe -- works
+    -- Detecting CXX compiler ABI info
+    -- Detecting CXX compiler ABI info - done
+    -- Detecting CXX compile features
+    -- Detecting CXX compile features - done
+    -- Found OpenSSL: C:/Users/Karm/openssl-devel-1.0.1e-51.win6.i686/lib/ssleay32.lib;C:/Users/Karm/openssl-devel-1.0.1e-51.win6.i686/lib/libeay32.lib (found version "1.0.1e")
+    -- Configuring done
+    -- Generating done
+    -- Build files have been written to: C:/Users/Karm/DummyCryptoDevice-build
+    
+    
+    C:\Users\Karm\DummyCryptoDevice-build
+    λ nmake
+    
+    Microsoft (R) Program Maintenance Utility Version 14.00.23506.0
+    Copyright (C) Microsoft Corporation.  All rights reserved.
+    
+    Scanning dependencies of target dummy
+    [ 50%] Building C object CMakeFiles/dummy.dir/src/e_dummy.c.obj
+    e_dummy.c
+    [100%] Linking C shared library lib\dummy.dll
+    [100%] Built target dummy
 
+Output artifact: ```C:\Users\Karm\DummyCryptoDevice-build\lib\dummy.dll```
 
 ## Certificates
-    openssl ecparam -out ca-key.pem -genkey -name prime256v1
-    openssl req -x509 -new -key ca-key.pem -out ca-cert.pem
-    openssl ecparam -out server-key.pem -genkey -name prime256v1 -noout
-    openssl req -new -key server-key.pem -out server-csr.pem
-    openssl x509 -req -days 365 -in server-csr.pem -CA ca-cert.pem -CAkey ca-key.pem -set_serial 01 -out server-cert.pem
-    openssl dhparam -out dhparam.pem 2048
+Generating necessary dhparams and certs:
+
+    openssl.exe ecparam -out ca-key.pem -genkey -name prime256v1
+    openssl.exe req -x509 -new -key ca-key.pem -out ca-cert.pem
+    openssl.exe ecparam -out server-key.pem -genkey -name prime256v1 -noout
+    openssl.exe req -new -key server-key.pem -out server-csr.pem
+    openssl.exe x509 -req -days 365 -in server-csr.pem -CA ca-cert.pem -CAkey ca-key.pem -set_serial 01 -out server-cert.pem
+    openssl.exe dhparam -out dhparam.pem 2048
+
+Eventually ends up with:
+
+    C:\Users\Karm\jws-3.0\certs
+    λ ls
+    ca-cert.pem  dhparam.pem  server-cert.pem  server-key.pem
 
 ## Configuration
-httpd.conf added content:
+mod_ssl configuration:
 
     <IfModule mod_ssl.c>
-        SSLRandomSeed startup builtin
-        SSLRandomSeed connect builtin
-        SSLCryptoDevice dummy
-        SSLEngine on
-        #SSLProtocol all -SSLv2
-        #SSLCipherSuite HIGH:!aNULL:!MD5:!EXP
+    
+      Listen localhost:443
+      SSLPassPhraseDialog     builtin
+      #SSLSessionCache         "shmcb:C:/Users/Karm/jws-3.0/var/cache/httpd/sslcache(512000)"
+      SSLSessionCacheTimeout  300
+    
+      SSLRandomSeed startup   builtin
+      SSLRandomSeed connect   builtin
+    
+      SSLCryptoDevice         dummy
+    
+      <VirtualHost _default_:443>
+        ServerName localhost:443
+        ErrorLog logs/ssl_error_log
+        TransferLog logs/ssl_access_log
+        LogLevel debug
+        SSLEngine               on
         SSLProtocol             all -SSLv2 -SSLv3
         SSLCipherSuite          ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA
         SSLHonorCipherOrder     on
-        SSLOpenSSLConfCmd DHParameters "/home/mbabacek/JWS/jboss-ews-2.1/httpd/certs/dhparam.pem"
-        SSLCertificateFile "/home/mbabacek/JWS/jboss-ews-2.1/httpd/certs/server-cert.pem"
-        SSLCertificateKeyFile "/home/mbabacek/JWS/jboss-ews-2.1/httpd/certs/server-key.pem"
-        SSLCACertificateFile "/home/mbabacek/JWS/jboss-ews-2.1/httpd/certs/ca-cert.pem"
+        SSLOpenSSLConfCmd DHParameters  "C:/Users/Karm/jws-3.0/certs/dhparam.pem"
+        SSLCertificateFile              "C:/Users/Karm/jws-3.0/certs/server-cert.pem"
+        SSLCertificateKeyFile           "C:/Users/Karm/jws-3.0/certs/server-key.pem"
+        SSLCACertificateFile            "C:/Users/Karm/jws-3.0/certs/ca-cert.pem"
+      </VirtualHost>
     </IfModule>
